@@ -1,0 +1,7 @@
+---
+# defaults file for ssl-role
+dir_ssl_certs: /etc/nginx/ssl-certs/
+
+private_key: /etc/nginx/ssl-certs/nginx.key
+csr: /etc/nginx/ssl-certs/nginx.csr
+certificate: /etc/nginx/ssl-certs/nginx.crt

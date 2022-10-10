@@ -1,0 +1,19 @@
+---
+# defaults file for servers-role
+
+var_dir_test1: /var/www/html/test1.softserve.com
+var_dir_test2: /var/www/html/test2.softserve.com
+
+src_index_test1: /Users/administrator/.ansible/roles/servers-role/templates/index-test1.html
+dest_index_test1: /var/www/html/test1.softserve.com/index.html
+
+src_index_test2: /Users/administrator/.ansible/roles/servers-role/templates/index-test2.html
+dest_index_test2: /var/www/html/test2.softserve.com/index.html
+
+etc_hosts: /etc/hosts
+
+src_nginx_conf_test1: /Users/administrator/.ansible/roles/servers-role/templates/test1.softserve.com.conf
+dest_nginx_conf_test1: /etc/nginx/conf.d/test1.softserve.com.conf
+
+src_nginx_conf_test2: /Users/administrator/.ansible/roles/servers-role/templates/test2.softserve.com.conf
+dest_nginx_conf_test2: /etc/nginx/conf.d/test2.softserve.com.conf

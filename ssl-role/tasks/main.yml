@@ -1,0 +1,35 @@
+---
+# tasks file for ssl-role
+- name: Install PyOpenSSL
+  pip:
+    name: PyOpenSSL
+    state: present
+    version: '>= 0.15'
+    
+- name: Create a directory for the csr, key, cert
+  file:
+    path: "{{dir_ssl_certs}}"
+    state: directory
+    owner: root 
+    group: root     
+    mode: 0755
+
+- name: Generate a private key
+  community.crypto.openssl_privatekey:
+    path: "{{private_key}}"
+    backup: yes
+
+- name: Generate a CSR
+  community.crypto.openssl_csr:
+    privatekey_path: "{{private_key}}"
+    path: csr
+    backup: yes
+    
+- name: Generate a certificate
+  community.crypto.x509_certificate:
+    path: "{{certificate}}"
+    privatekey_path: "{{private_key}}"
+    csr_path: "{{csr}}"
+    provider: selfsigned
+
+#block for all tasks with tag: ssl 

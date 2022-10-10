@@ -1,0 +1,64 @@
+---
+# tasks file for servers-role
+
+- name: Install nginx
+  yum:
+    name: nginx
+    state: present
+
+#loop for the two directories  
+- name: Make directory for test1.softserve.com and test2.softserve.com
+  file:
+    path: "{{item}}"
+    owner: root
+    group: root
+    mode: 0755
+    state: directory 
+  loop:
+    - "{{var_dir_test1}}"
+    - "{{var_dir_test2}}"
+
+#loop for the two index templates 
+- name: Add index.html file for test1.softserve.com and test2.softserve.com
+  template:
+    src: "{{item.src}}"
+    dest: "{{item.dest}}"
+  loop:
+    - {src: "{{src_index_test1}}", dest: "{{dest_index_test1}}"}
+    - {src: "{{src_index_test2}}", dest: "{{dest_index_test2}}"}
+
+- name: Adding the addresses in /etc/hosts
+  copy:
+    dest: "{{etc_hosts}}"
+    content: |
+      127.0.0.1 test1.softserve.com
+      127.0.0.1 test2.softserve.com
+
+- include_role:
+    name: ssl-role
+
+- name: Configuring etc/nginx/conf.d for virtual host 1 and host 2
+  template:
+    src: "{{item.src}}"
+    dest: "{{item.dest}}"
+  loop: 
+    - {src: "{{src_nginx_conf_test1}}", dest: "{{dest_nginx_conf_test1}}"}
+    - {src: "{{src_nginx_conf_test2}}", dest: "{{dest_nginx_conf_test2}}"} 
+  notify:
+    - Restart nginx
+
+- name: Start the service
+  service:
+    name: nginx
+    state: started 
+
+- name: Check access to test1
+  uri:
+    url: https://test1.softserve.com
+    status_code: 200 
+    return_content: no
+    validate_certs: no
+  no_log: true
+  changed_when: false
+  tags: check
+
