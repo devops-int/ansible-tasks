@@ -1,0 +1,6 @@
+---
+- name: Install nginx with 2 virtual hosts 
+  hosts: server
+
+  roles:
+    - servers-role
