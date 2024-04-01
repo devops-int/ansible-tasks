@@ -7,7 +7,7 @@
     state: present
 
 #loop for the two directories  
-- name: Make directory for test1.softserve.com and test2.softserve.com
+- name: Make directory for test1.software.com and test2.software.com
   file:
     path: "{{item}}"
     owner: root
@@ -19,7 +19,7 @@
     - "{{var_dir_test2}}"
 
 #loop for the two index templates 
-- name: Add index.html file for test1.softserve.com and test2.softserve.com
+- name: Add index.html file for test1.software.com and test2.software.com
   template:
     src: "{{item.src}}"
     dest: "{{item.dest}}"
@@ -31,8 +31,8 @@
   copy:
     dest: "{{etc_hosts}}"
     content: |
-      127.0.0.1 test1.softserve.com
-      127.0.0.1 test2.softserve.com
+      127.0.0.1 test1.software.com
+      127.0.0.1 test2.software.com
 
 - include_role:
     name: ssl-role
@@ -54,7 +54,7 @@
 
 - name: Check access to test1
   uri:
-    url: https://test1.softserve.com
+    url: https://test1.software.com
     status_code: 200 
     return_content: no
     validate_certs: no
